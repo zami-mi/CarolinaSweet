@@ -1793,3 +1793,180 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ========================================================
+   ESTILOS DE RECORDATORIOS DE ENTREGA (DASHBOARD)
+   ======================================================== */
+
+.reminders-section {
+    margin-bottom: 45px;
+}
+
+.reminders-empty-banner {
+    background: #E9F1E6;
+    border: 1px solid #D2E3CD;
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #4B6344;
+    font-size: 13px;
+}
+
+.reminders-empty-banner strong {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.reminders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+}
+
+.reminder-group {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.group-badge {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.badge-today {
+    color: #AD5E65;
+}
+
+.badge-tomorrow {
+    color: #9B6B24;
+}
+
+.badge-upcoming {
+    color: var(--brown);
+}
+
+.group-count {
+    background: var(--background);
+    color: var(--brown);
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.reminder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reminder-card-row {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.reminder-card-row:hover {
+    transform: translateY(-2px);
+    border-color: var(--pink-dark);
+    box-shadow: 0 4px 12px rgba(121, 83, 74, 0.05);
+}
+
+.card-today {
+    border-left: 4px solid #AD5E65;
+    background: #FFFBFB;
+}
+
+.card-tomorrow {
+    border-left: 4px solid #F2B94B;
+    background: #FFFCF7;
+}
+
+.card-upcoming {
+    border-left: 4px solid var(--rose);
+}
+
+.reminder-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.reminder-time-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--white);
+    color: var(--brown);
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.reminder-info {
+    flex: 1;
+}
+
+.reminder-client-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--brown);
+}
+
+.reminder-products {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.reminder-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reminder-balance {
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.reminder-arrow {
+    color: var(--muted);
+}

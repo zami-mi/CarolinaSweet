@@ -127,5 +127,9 @@ export const api = {
 
   cleanupCancelledOrders: () => fetchJson('/orders/cleanup-cancelled', {
     method: 'POST'
-  })
+  }),
+
+  // Dashboard y Reportes
+  getDashboardSummary: () => fetchJson('/dashboard/summary'),
+  getDashboardReminders: () => fetchJson('/dashboard/reminders')
 };

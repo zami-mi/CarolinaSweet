@@ -16,10 +16,14 @@ import ClientsPage from './pages/ClientsPage';
 import OrdersPage from './pages/OrdersPage';
 import OrderFormModal from './components/orders/OrderFormModal';
 import OrderDetailModal from './components/orders/OrderDetailModal';
+import SummaryCards from './components/dashboard/SummaryCards';
+import DeliveryReminders from './components/dashboard/DeliveryReminders';
 
 function App() {
   const [activeTab, setActiveTab] = useState('inicio');
   const [serverStatus, setServerStatus] = useState(null);
+  const [summaryData, setSummaryData] = useState(null);
+  const [remindersData, setRemindersData] = useState(null);
   const [recentOrders, setRecentOrders] = useState([]);
 
   // Modales globales para acceso rápido
@@ -27,10 +31,18 @@ function App() {
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const loadInitialData = () => {
+  const loadDashboardData = () => {
     api.getHealth()
       .then(data => setServerStatus(data))
       .catch(() => setServerStatus({ status: 'error' }));
+
+    api.getDashboardSummary()
+      .then(res => setSummaryData(res.data))
+      .catch(err => console.error(err));
+
+    api.getDashboardReminders()
+      .then(res => setRemindersData(res.data))
+      .catch(err => console.error(err));
 
     api.getOrders()
       .then(res => setRecentOrders(res.data?.slice(0, 5) || []))
@@ -38,7 +50,7 @@ function App() {
   };
 
   useEffect(() => {
-    loadInitialData();
+    loadDashboardData();
   }, [activeTab]);
 
   const handleOpenNewOrder = () => {
@@ -52,7 +64,7 @@ function App() {
 
   const handleSaveOrder = async (orderPayload) => {
     await api.createOrder(orderPayload);
-    loadInitialData();
+    loadDashboardData();
   };
 
   const handleDuplicateOrder = async (order) => {
@@ -60,7 +72,7 @@ function App() {
       const todayStr = new Date().toISOString().split('T')[0];
       await api.duplicateOrder(order.id, todayStr);
       setIsOrderDetailOpen(false);
-      loadInitialData();
+      loadDashboardData();
       alert(`Pedido #${order.id} duplicado exitosamente en estado Pendiente.`);
     } catch (err) {
       alert(err.message || 'Error al duplicar pedido');
@@ -69,7 +81,7 @@ function App() {
 
   const handleToggleFavorite = async (order) => {
     await api.toggleFavoriteOrder(order.id);
-    loadInitialData();
+    loadDashboardData();
   };
 
   const getStatusClass = (status) => {
@@ -167,26 +179,14 @@ function App() {
         {/* VISTA DE INICIO */}
         {activeTab === 'inicio' && (
           <>
-            {/* RESUMEN */}
-            <section className="summary">
-              <article className="summary-card">
-                <p>Ventas del mes</p>
-                <h3>$ 185.000</h3>
-                <span>Resumen de facturación</span>
-              </article>
+            {/* TARJETAS DE RESUMEN VIVAS */}
+            <SummaryCards summary={summaryData} />
 
-              <article className="summary-card">
-                <p>Pedidos pendientes</p>
-                <h3>{recentOrders.filter(o => o.status === 'Pendiente').length.toString().padStart(2, '0')}</h3>
-                <span>Requieren atención</span>
-              </article>
-
-              <article className="summary-card">
-                <p>Próximas entregas</p>
-                <h3>{recentOrders.filter(o => o.status !== 'Entregado' && o.status !== 'Cancelado').length.toString().padStart(2, '0')}</h3>
-                <span>Entregas en curso</span>
-              </article>
-            </section>
+            {/* ALERTAS Y RECORDATORIOS DE ENTREGA */}
+            <DeliveryReminders
+              reminders={remindersData}
+              onOrderClick={handleOpenOrderDetail}
+            />
 
             {/* PEDIDOS RECIENTES */}
             <section className="section">
@@ -267,7 +267,7 @@ function App() {
           <div className="empty-state">
             <BarChart3 size={32} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
             <h3>Reportes y Dashboard Periódico</h3>
-            <p>Se implementará en las tareas T07 y T08.</p>
+            <p>Se implementará en la siguiente tarea (T08).</p>
           </div>
         )}
 
