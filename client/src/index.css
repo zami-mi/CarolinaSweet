@@ -869,3 +869,258 @@ footer {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+
+/* ========================================================
+   ESTILOS DEL MÓDULO CLIENTES
+   ======================================================== */
+
+.clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+}
+
+.client-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.client-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(121, 83, 74, 0.06);
+}
+
+.client-card-inactive {
+    opacity: 0.6;
+    background: #faf7f5;
+}
+
+.client-header {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.client-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: var(--brown);
+    font-family: Georgia, serif;
+    font-size: 19px;
+    font-weight: bold;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.client-main-info {
+    flex: 1;
+}
+
+.client-name-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.client-name {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    color: var(--brown);
+}
+
+.client-phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--rose);
+    font-weight: 500;
+}
+
+.client-phone-link:hover {
+    text-decoration: underline;
+}
+
+/* CAJA DE ALERGIAS */
+.client-allergies-box {
+    background: #FFF0E8;
+    border: 1px solid #FCD2C0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 12px;
+    color: #9E4E2C;
+}
+
+.allergy-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.client-allergies-box strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+/* CAJA DE NOTAS */
+.client-notes-box {
+    background: var(--background);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.notes-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--muted);
+}
+
+/* ESTADÍSTICAS DE COMPRA */
+.client-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--background);
+    border-radius: 10px;
+    padding: 10px 14px;
+    gap: 10px;
+}
+
+.client-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+.client-stat strong {
+    font-size: 15px;
+    color: var(--brown);
+}
+
+/* ACCIONES DE CLIENTE */
+.client-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+.btn-sm {
+    padding: 7px 12px;
+    font-size: 12px;
+}
+
+/* MODAL DE DETALLE DE CLIENTE */
+.modal-content-wide {
+    max-width: 650px;
+}
+
+.client-detail-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--background);
+    border-radius: 12px;
+    padding: 14px 18px;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.client-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.client-order-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-item-left strong {
+    font-size: 13px;
+    color: var(--brown);
+}
+
+.order-item-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.order-item-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: right;
+}
+
+.order-item-money strong {
+    font-size: 14px;
+    color: var(--brown);
+}
+
+.no-orders-msg {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 13px;
+}

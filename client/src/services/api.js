@@ -59,5 +59,31 @@ export const api = {
 
   deleteProduct: (id) => fetchJson(`/products/${id}`, {
     method: 'DELETE'
+  }),
+
+  // Clientes
+  getClients: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.search) query.append('search', params.search);
+    if (params.include_inactive) query.append('include_inactive', 'true');
+    const queryString = query.toString() ? `?${query.toString()}` : '';
+    return fetchJson(`/clients${queryString}`);
+  },
+
+  getClientById: (id) => fetchJson(`/clients/${id}`),
+
+  createClient: (clientData) => fetchJson('/clients', {
+    method: 'POST',
+    body: JSON.stringify(clientData)
+  }),
+
+  updateClient: (id, clientData) => fetchJson(`/clients/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(clientData)
+  }),
+
+  toggleClientStatus: (id, is_active) => fetchJson(`/clients/${id}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ is_active })
   })
 };

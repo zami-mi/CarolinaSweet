@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const categoriesRoutes = require('./routes/categories.routes');
 const productsRoutes = require('./routes/products.routes');
+const clientsRoutes = require('./routes/clients.routes');
 
 const app = express();
 
@@ -20,9 +21,10 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Rutas de la API
+// Rutas de la API REST
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/products', productsRoutes);
+app.use('/api/clients', clientsRoutes);
 
 // Manejador para rutas no encontradas (404)
 app.use((req, res) => {

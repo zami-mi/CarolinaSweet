@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { api } from './services/api';
 import CatalogPage from './pages/CatalogPage';
+import ClientsPage from './pages/ClientsPage';
 
 function App() {
   const [activeTab, setActiveTab] = useState('inicio');
@@ -96,8 +97,8 @@ function App() {
             <h2>
               {activeTab === 'inicio' && 'Tu negocio hoy'}
               {activeTab === 'catalogo' && 'Catálogo de creaciones'}
+              {activeTab === 'clientes' && 'Agenda de clientes'}
               {activeTab === 'pedidos' && 'Gestión de pedidos'}
-              {activeTab === 'clientes' && 'Fichas de clientes'}
               {activeTab === 'reportes' && 'Reportes periódicos'}
             </h2>
           </div>
@@ -205,20 +206,15 @@ function App() {
         {/* VISTA DE CATÁLOGO */}
         {activeTab === 'catalogo' && <CatalogPage />}
 
+        {/* VISTA DE CLIENTES */}
+        {activeTab === 'clientes' && <ClientsPage />}
+
         {/* PESTAÑAS EN DESARROLLO */}
         {activeTab === 'pedidos' && (
           <div className="empty-state">
             <ShoppingBag size={32} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
             <h3>Módulo de Pedidos y Tablero Kanban</h3>
             <p>Se implementará en las próximas tareas (T05 y T06).</p>
-          </div>
-        )}
-
-        {activeTab === 'clientes' && (
-          <div className="empty-state">
-            <Users size={32} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
-            <h3>Módulo de Clientes (Habituales y Ocasionales)</h3>
-            <p>Se implementará en la próxima tarea (T04).</p>
           </div>
         )}
 
