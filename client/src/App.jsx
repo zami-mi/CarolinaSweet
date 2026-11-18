@@ -13,16 +13,83 @@ import {
 import { api } from './services/api';
 import CatalogPage from './pages/CatalogPage';
 import ClientsPage from './pages/ClientsPage';
+import OrderFormModal from './components/orders/OrderFormModal';
+import OrderDetailModal from './components/orders/OrderDetailModal';
 
 function App() {
   const [activeTab, setActiveTab] = useState('inicio');
   const [serverStatus, setServerStatus] = useState(null);
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
 
-  useEffect(() => {
+  // Modales de pedidos globales
+  const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  const loadInitialData = () => {
     api.getHealth()
       .then(data => setServerStatus(data))
       .catch(() => setServerStatus({ status: 'error' }));
+
+    setLoadingOrders(true);
+    api.getOrders()
+      .then(res => setRecentOrders(res.data?.slice(0, 5) || []))
+      .catch(err => console.error(err))
+      .finally(() => setLoadingOrders(false));
+  };
+
+  useEffect(() => {
+    loadInitialData();
   }, []);
+
+  const handleOpenNewOrder = () => {
+    setEditingOrder(null);
+    setIsOrderFormOpen(true);
+  };
+
+  const handleOpenOrderDetail = (orderId) => {
+    setSelectedOrderId(orderId);
+    setIsOrderDetailOpen(true);
+  };
+
+  const handleSaveOrder = async (orderPayload) => {
+    if (editingOrder) {
+      await api.updateOrder(editingOrder.id, orderPayload);
+    } else {
+      await api.createOrder(orderPayload);
+    }
+    loadInitialData();
+  };
+
+  const handleDuplicateOrder = async (order) => {
+    try {
+      const todayStr = new Date().toISOString().split('T')[0];
+      await api.duplicateOrder(order.id, todayStr);
+      setIsOrderDetailOpen(false);
+      loadInitialData();
+      alert(`Pedido #${order.id} duplicado exitosamente en estado Pendiente.`);
+    } catch (err) {
+      alert(err.message || 'Error al duplicar pedido');
+    }
+  };
+
+  const handleToggleFavorite = async (order) => {
+    await api.toggleFavoriteOrder(order.id);
+    loadInitialData();
+  };
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Pendiente': return 'pending';
+      case 'En preparación': return 'preparing';
+      case 'Listo': return 'ready';
+      case 'Entregado': return 'delivered';
+      case 'Cancelado': return 'cancelled';
+      default: return 'pending';
+    }
+  };
 
   return (
     <div className="app">
@@ -105,7 +172,7 @@ function App() {
           <div className="profile" title="Carolina Sweet">C</div>
         </header>
 
-        {/* VISTAS SEGÚN LA PESTAÑA ACTIVA */}
+        {/* VISTA DE INICIO */}
         {activeTab === 'inicio' && (
           <>
             {/* RESUMEN */}
@@ -118,56 +185,52 @@ function App() {
 
               <article className="summary-card">
                 <p>Pedidos pendientes</p>
-                <h3>08</h3>
+                <h3>{recentOrders.filter(o => o.status === 'Pendiente').length.toString().padStart(2, '0')}</h3>
                 <span>Requieren atención</span>
               </article>
 
               <article className="summary-card">
                 <p>Próximas entregas</p>
-                <h3>05</h3>
-                <span>Entregas programadas</span>
+                <h3>{recentOrders.filter(o => o.status !== 'Entregado' && o.status !== 'Cancelado').length.toString().padStart(2, '0')}</h3>
+                <span>Entregas en curso</span>
               </article>
             </section>
 
-            {/* PEDIDOS RECIENTES */}
+            {/* PEDIDOS RECIENTES VIVOS */}
             <section className="section">
               <div className="section-header">
                 <div>
                   <p className="eyebrow">ORGANIZACIÓN</p>
-                  <h2>Pedidos recientes</h2>
+                  <h2>Pedidos recientes ({recentOrders.length})</h2>
                 </div>
                 <button type="button" className="text-link" onClick={() => setActiveTab('pedidos')}>
-                  Ver todos
+                  Ver todos en Kanban
                 </button>
               </div>
 
               <div className="orders">
-                <article className="order-card">
-                  <div>
-                    <h3>Torta de chocolate artesanal</h3>
-                    <p>Cliente: Martina López</p>
-                    <span className="date">Entrega: 20/11/2026</span>
-                  </div>
-                  <span className="status pending">Pendiente</span>
-                </article>
-
-                <article className="order-card">
-                  <div>
-                    <h3>Box de cupcakes decorados</h3>
-                    <p>Cliente: Sofía Ramírez</p>
-                    <span className="date">Entrega: 21/11/2026</span>
-                  </div>
-                  <span className="status preparing">En preparación</span>
-                </article>
-
-                <article className="order-card">
-                  <div>
-                    <h3>Cheesecake de frutos rojos</h3>
-                    <p>Cliente: Lucía Fernández</p>
-                    <span className="date">Entrega: 22/11/2026</span>
-                  </div>
-                  <span className="status ready">Listo</span>
-                </article>
+                {recentOrders.map((order) => (
+                  <article 
+                    key={order.id} 
+                    className="order-card" 
+                    role="button" 
+                    tabIndex={0}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleOpenOrderDetail(order.id)}
+                  >
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <h3>Pedido #{order.id}: {order.products_summary || 'Pedido de pastelería'}</h3>
+                        {order.is_favorite === 1 && <Sparkles size={13} color="var(--rose)" />}
+                      </div>
+                      <p>Cliente: {order.client_name || order.occasional_name}</p>
+                      <span className="date">Entrega: {order.delivery_date} {order.delivery_time ? `(${order.delivery_time})` : ''}</span>
+                    </div>
+                    <span className={`status ${getStatusClass(order.status)}`}>
+                      {order.status}
+                    </span>
+                  </article>
+                ))}
               </div>
             </section>
 
@@ -181,7 +244,7 @@ function App() {
               </div>
 
               <div className="quick-actions">
-                <div className="action-card" role="button" tabIndex={0} onClick={() => setActiveTab('pedidos')}>
+                <div className="action-card" role="button" tabIndex={0} onClick={handleOpenNewOrder}>
                   <span><PlusCircle size={28} /></span>
                   <h3>Nuevo pedido</h3>
                   <p>Registrar una nueva venta</p>
@@ -203,18 +266,19 @@ function App() {
           </>
         )}
 
-        {/* VISTA DE CATÁLOGO */}
+        {/* VISTAS MODULARES */}
         {activeTab === 'catalogo' && <CatalogPage />}
-
-        {/* VISTA DE CLIENTES */}
         {activeTab === 'clientes' && <ClientsPage />}
 
-        {/* PESTAÑAS EN DESARROLLO */}
+        {/* PESTAÑA PEDIDOS (EN T06 TENDREMOS EL KANBAN COMPLETO) */}
         {activeTab === 'pedidos' && (
           <div className="empty-state">
-            <ShoppingBag size={32} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
-            <h3>Módulo de Pedidos y Tablero Kanban</h3>
-            <p>Se implementará en las próximas tareas (T05 y T06).</p>
+            <ShoppingBag size={36} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
+            <h3>Tablero Kanban Interactivo</h3>
+            <p style={{ marginBottom: '16px' }}>El tablero Kanban visual con menú desplegable táctil se implementará en la siguiente tarea (T06).</p>
+            <button type="button" className="btn btn-primary" onClick={handleOpenNewOrder}>
+              <PlusCircle size={16} /> Crear nuevo pedido ahora
+            </button>
           </div>
         )}
 
@@ -230,6 +294,27 @@ function App() {
           Carolina Sweet © 2026 · Hecho con cariño ♡
         </footer>
       </main>
+
+      {/* MODAL GLOBAL DE ALTA Y EDICIÓN DE PEDIDO */}
+      <OrderFormModal
+        isOpen={isOrderFormOpen}
+        onClose={() => setIsOrderFormOpen(false)}
+        onSave={handleSaveOrder}
+        order={editingOrder}
+      />
+
+      {/* MODAL GLOBAL DE DETALLE DE PEDIDO */}
+      <OrderDetailModal
+        isOpen={isOrderDetailOpen}
+        onClose={() => setIsOrderDetailOpen(false)}
+        orderId={selectedOrderId}
+        onEdit={(order) => {
+          setEditingOrder(order);
+          setIsOrderFormOpen(true);
+        }}
+        onDuplicate={handleDuplicateOrder}
+        onToggleFavorite={handleToggleFavorite}
+      />
     </div>
   );
 }

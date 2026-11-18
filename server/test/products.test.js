@@ -111,5 +111,9 @@ describe('Módulo de Catálogo y Categorías (API)', () => {
     assert.strictEqual(res.status, 200);
     assert.strictEqual(body.soft_deleted, true);
     assert.ok(body.message.includes('preservar el historial'));
+
+    // Restaurar disponibilidad para que los demás tests puedan seguir ordenando el producto 1
+    const { db } = require('../src/database/db');
+    db.prepare('UPDATE products SET is_available = 1 WHERE id = 1').run();
   });
 });

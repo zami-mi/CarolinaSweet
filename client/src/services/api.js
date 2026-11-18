@@ -85,5 +85,38 @@ export const api = {
   toggleClientStatus: (id, is_active) => fetchJson(`/clients/${id}/status`, {
     method: 'PATCH',
     body: JSON.stringify({ is_active })
+  }),
+
+  // Pedidos
+  getOrders: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.status) query.append('status', params.status);
+    if (params.client_id) query.append('client_id', params.client_id);
+    if (params.date) query.append('date', params.date);
+    if (params.favorite_only) query.append('favorite_only', 'true');
+    if (params.search) query.append('search', params.search);
+    const queryString = query.toString() ? `?${query.toString()}` : '';
+    return fetchJson(`/orders${queryString}`);
+  },
+
+  getOrderById: (id) => fetchJson(`/orders/${id}`),
+
+  createOrder: (orderData) => fetchJson('/orders', {
+    method: 'POST',
+    body: JSON.stringify(orderData)
+  }),
+
+  updateOrder: (id, orderData) => fetchJson(`/orders/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(orderData)
+  }),
+
+  toggleFavoriteOrder: (id) => fetchJson(`/orders/${id}/favorite`, {
+    method: 'PATCH'
+  }),
+
+  duplicateOrder: (id, delivery_date) => fetchJson(`/orders/${id}/duplicate`, {
+    method: 'POST',
+    body: JSON.stringify({ delivery_date })
   })
 };

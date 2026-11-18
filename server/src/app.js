@@ -4,6 +4,7 @@ const cors = require('cors');
 const categoriesRoutes = require('./routes/categories.routes');
 const productsRoutes = require('./routes/products.routes');
 const clientsRoutes = require('./routes/clients.routes');
+const ordersRoutes = require('./routes/orders.routes');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/clients', clientsRoutes);
+app.use('/api/orders', ordersRoutes);
 
 // Manejador para rutas no encontradas (404)
 app.use((req, res) => {

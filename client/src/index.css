@@ -1124,3 +1124,313 @@ footer {
     color: var(--muted);
     font-size: 13px;
 }
+
+
+/* ========================================================
+   ESTILOS DE PEDIDOS (FORMULARIO Y DETALLES)
+   ======================================================== */
+
+.form-section-box {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.section-title-label {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--rose);
+}
+
+.type-toggle-pills {
+    display: flex;
+    gap: 8px;
+}
+
+.type-pill {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.type-pill-active {
+    background: var(--rose);
+    color: var(--white);
+    border-color: var(--rose);
+    font-weight: 600;
+}
+
+.product-picker-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-item-row {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.item-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--brown);
+}
+
+.item-qty {
+    font-size: 12px;
+    background: var(--pink);
+    color: var(--brown);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.item-subtotal {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.item-delete-btn {
+    color: #AD5E65;
+    padding: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.item-delete-btn:hover {
+    background: #FCE8E8;
+}
+
+.no-items-warning {
+    font-size: 12px;
+    color: var(--rose);
+    font-style: italic;
+    padding: 6px 0;
+}
+
+/* TOTALES Y SALDO EN FORMULARIO */
+.order-totals-summary {
+    background: #F8E8E5;
+    border: 1px solid var(--pink-dark);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.totals-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.totals-row-main {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--brown);
+    padding-top: 8px;
+    border-top: 1px dashed var(--pink-dark);
+    margin-top: 4px;
+}
+
+.balance-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.balance-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.balance-amount {
+    font-size: 18px;
+    font-family: Georgia, serif;
+}
+
+.balance-pending-due {
+    color: #AD5E65;
+}
+
+.balance-pending-zero {
+    color: #617C5A;
+}
+
+/* DETALLE DEL PEDIDO MODAL */
+.order-detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.order-summary-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    gap: 14px;
+}
+
+.order-summary-pill {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-card-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.box-title {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--rose);
+    margin-bottom: 4px;
+}
+
+.client-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-items-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.detail-item-main strong {
+    font-size: 13px;
+    color: var(--brown);
+    display: block;
+}
+
+.detail-item-meta {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.detail-item-subtotal {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.detail-item-row-extra {
+    color: var(--rose);
+}
+
+.detail-totals-box {
+    background: var(--background);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.totals-subrow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.totals-highlight {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    color: var(--brown);
+    font-weight: bold;
+    padding: 4px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.totals-balance-due {
+    color: #AD5E65;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.order-notes-full {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    background: var(--background);
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.modal-actions-spread {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.actions-left,
+.actions-right {
+    display: flex;
+    gap: 8px;
+}
