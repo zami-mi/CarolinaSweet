@@ -13,6 +13,7 @@ import {
 import { api } from './services/api';
 import CatalogPage from './pages/CatalogPage';
 import ClientsPage from './pages/ClientsPage';
+import OrdersPage from './pages/OrdersPage';
 import OrderFormModal from './components/orders/OrderFormModal';
 import OrderDetailModal from './components/orders/OrderDetailModal';
 
@@ -20,11 +21,9 @@ function App() {
   const [activeTab, setActiveTab] = useState('inicio');
   const [serverStatus, setServerStatus] = useState(null);
   const [recentOrders, setRecentOrders] = useState([]);
-  const [loadingOrders, setLoadingOrders] = useState(false);
 
-  // Modales de pedidos globales
+  // Modales globales para acceso rápido
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
-  const [editingOrder, setEditingOrder] = useState(null);
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -33,19 +32,16 @@ function App() {
       .then(data => setServerStatus(data))
       .catch(() => setServerStatus({ status: 'error' }));
 
-    setLoadingOrders(true);
     api.getOrders()
       .then(res => setRecentOrders(res.data?.slice(0, 5) || []))
-      .catch(err => console.error(err))
-      .finally(() => setLoadingOrders(false));
+      .catch(err => console.error(err));
   };
 
   useEffect(() => {
     loadInitialData();
-  }, []);
+  }, [activeTab]);
 
   const handleOpenNewOrder = () => {
-    setEditingOrder(null);
     setIsOrderFormOpen(true);
   };
 
@@ -55,11 +51,7 @@ function App() {
   };
 
   const handleSaveOrder = async (orderPayload) => {
-    if (editingOrder) {
-      await api.updateOrder(editingOrder.id, orderPayload);
-    } else {
-      await api.createOrder(orderPayload);
-    }
+    await api.createOrder(orderPayload);
     loadInitialData();
   };
 
@@ -163,9 +155,9 @@ function App() {
             <p className="greeting">¡Hola, Carolina!</p>
             <h2>
               {activeTab === 'inicio' && 'Tu negocio hoy'}
+              {activeTab === 'pedidos' && 'Gestión y Tablero Kanban'}
               {activeTab === 'catalogo' && 'Catálogo de creaciones'}
               {activeTab === 'clientes' && 'Agenda de clientes'}
-              {activeTab === 'pedidos' && 'Gestión de pedidos'}
               {activeTab === 'reportes' && 'Reportes periódicos'}
             </h2>
           </div>
@@ -196,7 +188,7 @@ function App() {
               </article>
             </section>
 
-            {/* PEDIDOS RECIENTES VIVOS */}
+            {/* PEDIDOS RECIENTES */}
             <section className="section">
               <div className="section-header">
                 <div>
@@ -204,7 +196,7 @@ function App() {
                   <h2>Pedidos recientes ({recentOrders.length})</h2>
                 </div>
                 <button type="button" className="text-link" onClick={() => setActiveTab('pedidos')}>
-                  Ver todos en Kanban
+                  Ver en Tablero Kanban
                 </button>
               </div>
 
@@ -267,20 +259,9 @@ function App() {
         )}
 
         {/* VISTAS MODULARES */}
+        {activeTab === 'pedidos' && <OrdersPage />}
         {activeTab === 'catalogo' && <CatalogPage />}
         {activeTab === 'clientes' && <ClientsPage />}
-
-        {/* PESTAÑA PEDIDOS (EN T06 TENDREMOS EL KANBAN COMPLETO) */}
-        {activeTab === 'pedidos' && (
-          <div className="empty-state">
-            <ShoppingBag size={36} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
-            <h3>Tablero Kanban Interactivo</h3>
-            <p style={{ marginBottom: '16px' }}>El tablero Kanban visual con menú desplegable táctil se implementará en la siguiente tarea (T06).</p>
-            <button type="button" className="btn btn-primary" onClick={handleOpenNewOrder}>
-              <PlusCircle size={16} /> Crear nuevo pedido ahora
-            </button>
-          </div>
-        )}
 
         {activeTab === 'reportes' && (
           <div className="empty-state">
@@ -295,23 +276,18 @@ function App() {
         </footer>
       </main>
 
-      {/* MODAL GLOBAL DE ALTA Y EDICIÓN DE PEDIDO */}
+      {/* MODAL GLOBAL RÁPIDO PARA CREAR PEDIDO DESDE INICIO */}
       <OrderFormModal
         isOpen={isOrderFormOpen}
         onClose={() => setIsOrderFormOpen(false)}
         onSave={handleSaveOrder}
-        order={editingOrder}
       />
 
-      {/* MODAL GLOBAL DE DETALLE DE PEDIDO */}
+      {/* MODAL GLOBAL DE DETALLE DESDE INICIO */}
       <OrderDetailModal
         isOpen={isOrderDetailOpen}
         onClose={() => setIsOrderDetailOpen(false)}
         orderId={selectedOrderId}
-        onEdit={(order) => {
-          setEditingOrder(order);
-          setIsOrderFormOpen(true);
-        }}
         onDuplicate={handleDuplicateOrder}
         onToggleFavorite={handleToggleFavorite}
       />

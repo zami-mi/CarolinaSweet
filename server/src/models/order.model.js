@@ -384,6 +384,50 @@ class OrderModel {
       items: newItems
     });
   }
+  static updateStatus(id, newStatus) {
+    const validStatuses = ['Pendiente', 'En preparación', 'Listo', 'Entregado', 'Cancelado'];
+    if (!validStatuses.includes(newStatus)) {
+      throw new Error(`Estado inválido: "${newStatus}". Estados permitidos: ${validStatuses.join(', ')}`);
+    }
+
+    const existing = this.getById(id);
+    if (!existing) return null;
+
+    let deliveredAt = existing.delivered_at;
+    let cancelledAt = existing.cancelled_at;
+
+    if (newStatus === 'Entregado') {
+      deliveredAt = new Date().toISOString();
+    } else if (newStatus === 'Cancelado') {
+      cancelledAt = new Date().toISOString();
+    } else {
+      // Si se reabre o se cambia a otro estado, limpiamos delivered_at o cancelled_at
+      if (existing.status === 'Entregado') {
+        deliveredAt = null;
+      }
+      if (existing.status === 'Cancelado') {
+        cancelledAt = null;
+      }
+    }
+
+    const stmt = db.prepare(`
+      UPDATE orders
+      SET status = ?, delivered_at = ?, cancelled_at = ?
+      WHERE id = ?
+    `);
+    stmt.run(newStatus, deliveredAt, cancelledAt, id);
+
+    return this.getById(id);
+  }
+
+  static cleanupOldCancelled() {
+    const stmt = db.prepare(`
+      DELETE FROM orders
+      WHERE status = 'Cancelado' AND cancelled_at <= datetime('now', '-365 days')
+    `);
+    const result = stmt.run();
+    return { cleaned_orders: result.changes };
+  }
 }
 
 module.exports = OrderModel;

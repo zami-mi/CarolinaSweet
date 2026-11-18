@@ -43,6 +43,22 @@ exports.updateOrder = (req, res, next) => {
   }
 };
 
+exports.updateStatus = (req, res, next) => {
+  try {
+    const { status } = req.body;
+    if (!status) {
+      return res.status(400).json({ error: 'El campo "status" es obligatorio' });
+    }
+    const updated = OrderModel.updateStatus(req.params.id, status);
+    if (!updated) {
+      return res.status(404).json({ error: 'Pedido no encontrado' });
+    }
+    res.json({ data: updated, message: `Estado del pedido #${req.params.id} actualizado a "${status}"` });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 exports.toggleFavorite = (req, res, next) => {
   try {
     const updated = OrderModel.toggleFavorite(req.params.id);
@@ -65,5 +81,14 @@ exports.duplicateOrder = (req, res, next) => {
     res.status(201).json({ data: duplicated, message: 'Pedido duplicado exitosamente en estado Pendiente' });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+exports.cleanupCancelled = (req, res, next) => {
+  try {
+    const result = OrderModel.cleanupOldCancelled();
+    res.json({ message: 'Limpieza de pedidos cancelados (+365 días) completada', ...result });
+  } catch (error) {
+    next(error);
   }
 };

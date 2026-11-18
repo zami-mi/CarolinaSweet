@@ -111,6 +111,11 @@ export const api = {
     body: JSON.stringify(orderData)
   }),
 
+  updateOrderStatus: (id, status) => fetchJson(`/orders/${id}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status })
+  }),
+
   toggleFavoriteOrder: (id) => fetchJson(`/orders/${id}/favorite`, {
     method: 'PATCH'
   }),
@@ -118,5 +123,9 @@ export const api = {
   duplicateOrder: (id, delivery_date) => fetchJson(`/orders/${id}/duplicate`, {
     method: 'POST',
     body: JSON.stringify({ delivery_date })
+  }),
+
+  cleanupCancelledOrders: () => fetchJson('/orders/cleanup-cancelled', {
+    method: 'POST'
   })
 };

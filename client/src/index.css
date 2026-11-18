@@ -1434,3 +1434,362 @@ footer {
     display: flex;
     gap: 8px;
 }
+
+
+/* ========================================================
+   ESTILOS DEL TABLERO KANBAN Y VISTA DE PEDIDOS
+   ======================================================== */
+
+.view-mode-buttons {
+    display: flex;
+    gap: 4px;
+    background: var(--background);
+    padding: 3px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.view-btn-active {
+    background: var(--white);
+    color: var(--brown);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    font-weight: 600;
+}
+
+/* KANBAN BOARD */
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.kanban-column {
+    background: #FAF5F2;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+
+.kanban-column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+}
+
+.column-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--brown);
+}
+
+.column-title-wrap h3 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.column-count-badge {
+    background: var(--white);
+    color: var(--brown);
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+/* COLORES ESPECÍFICOS DE COLUMNAS */
+.col-pending {
+    border-top: 4px solid #F2B94B;
+}
+.col-pending .column-title-wrap {
+    color: #9B6B24;
+}
+
+.col-preparing {
+    border-top: 4px solid var(--rose);
+}
+.col-preparing .column-title-wrap {
+    color: var(--rose);
+}
+
+.col-ready {
+    border-top: 4px solid #617C5A;
+}
+.col-ready .column-title-wrap {
+    color: #617C5A;
+}
+
+.col-delivered {
+    border-top: 4px solid #3B6BB0;
+}
+.col-delivered .column-title-wrap {
+    color: #3B6BB0;
+}
+
+.kanban-column-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.kanban-empty-column {
+    text-align: center;
+    padding: 30px 10px;
+    color: var(--muted);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* TARJETA KANBAN INDIVIDUAL */
+.kanban-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kanban-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(121, 83, 74, 0.08);
+}
+
+.kanban-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-card-id {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+}
+
+.favorite-star-btn {
+    color: var(--muted);
+    padding: 3px;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.favorite-star-btn:hover,
+.favorite-star-btn.is-fav {
+    color: #E2A127;
+}
+
+.kanban-client-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+.kanban-client-name {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    color: var(--brown);
+    margin: 0;
+}
+
+.kanban-allergy-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: #FFF0E8;
+    color: #AD5E65;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.kanban-products-summary {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.kanban-delivery-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--rose);
+    font-weight: 500;
+}
+
+.kanban-delivery-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--muted);
+    margin-left: 6px;
+}
+
+.kanban-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    gap: 8px;
+}
+
+.kanban-balance {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.balance-due {
+    color: #AD5E65;
+}
+
+.balance-paid {
+    color: #617C5A;
+}
+
+/* SELECTOR TÁCTIL DE ESTADO */
+.kanban-status-select-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.kanban-status-select {
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 24px 6px 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s;
+}
+
+.select-arrow {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.status-pendiente {
+    background: #FFF0D8;
+    color: #9B6B24;
+    border-color: #f7deb7;
+}
+
+.status-en-preparación {
+    background: #FCE8E8;
+    color: #AD5E65;
+    border-color: #f7c8c8;
+}
+
+.status-listo {
+    background: #E9F1E6;
+    color: #617C5A;
+    border-color: #cde0c7;
+}
+
+.status-entregado {
+    background: #E8F0FE;
+    color: #3B6BB0;
+    border-color: #c7dbfb;
+}
+
+.status-cancelado {
+    background: #F1F1F1;
+    color: #888888;
+    border-color: #dfdfdf;
+}
+
+/* TABLA DE LISTA DE PEDIDOS */
+.orders-list-table-container {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.orders-table th {
+    background: var(--background);
+    padding: 14px 16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--rose);
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+}
+
+.orders-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.orders-table tr:hover td {
+    background: #FAF5F2;
+}
+
+.table-products-summary {
+    max-width: 250px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--muted);
+}
+
+/* RESPONSIVE KANBAN */
+@media (max-width: 1080px) {
+    .kanban-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .kanban-board {
+        grid-template-columns: 1fr;
+    }
+}
