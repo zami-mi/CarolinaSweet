@@ -14,6 +14,7 @@ import { api } from './services/api';
 import CatalogPage from './pages/CatalogPage';
 import ClientsPage from './pages/ClientsPage';
 import OrdersPage from './pages/OrdersPage';
+import ReportsPage from './pages/ReportsPage';
 import OrderFormModal from './components/orders/OrderFormModal';
 import OrderDetailModal from './components/orders/OrderDetailModal';
 import SummaryCards from './components/dashboard/SummaryCards';
@@ -262,14 +263,7 @@ function App() {
         {activeTab === 'pedidos' && <OrdersPage />}
         {activeTab === 'catalogo' && <CatalogPage />}
         {activeTab === 'clientes' && <ClientsPage />}
-
-        {activeTab === 'reportes' && (
-          <div className="empty-state">
-            <BarChart3 size={32} style={{ color: 'var(--rose)', margin: '0 auto 12px' }} />
-            <h3>Reportes y Dashboard Periódico</h3>
-            <p>Se implementará en la siguiente tarea (T08).</p>
-          </div>
-        )}
+        {activeTab === 'reportes' && <ReportsPage />}
 
         <footer>
           Carolina Sweet © 2026 · Hecho con cariño ♡

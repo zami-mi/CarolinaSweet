@@ -131,5 +131,6 @@ export const api = {
 
   // Dashboard y Reportes
   getDashboardSummary: () => fetchJson('/dashboard/summary'),
-  getDashboardReminders: () => fetchJson('/dashboard/reminders')
+  getDashboardReminders: () => fetchJson('/dashboard/reminders'),
+  getReports: (period = 'month') => fetchJson(`/reports?period=${period}`)
 };
