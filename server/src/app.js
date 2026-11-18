@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
+const categoriesRoutes = require('./routes/categories.routes');
+const productsRoutes = require('./routes/products.routes');
+
 const app = express();
 
 // Middlewares globales
@@ -16,6 +19,10 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Rutas de la API
+app.use('/api/categories', categoriesRoutes);
+app.use('/api/products', productsRoutes);
 
 // Manejador para rutas no encontradas (404)
 app.use((req, res) => {
