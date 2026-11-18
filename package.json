@@ -1,0 +1,17 @@
+{
+  "name": "carolina-sweet",
+  "version": "1.0.0",
+  "description": "Sistema de gestión integral para pastelería artesanal Carolina Sweet",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run server\" \"npm run client\"",
+    "start": "node server/server.js",
+    "test": "npm --prefix server test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
