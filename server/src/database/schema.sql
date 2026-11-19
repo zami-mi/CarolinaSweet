@@ -1,6 +1,6 @@
 
 
--- 1. Tabla de usuarios (preparada para futura autenticación)
+-- 1. Tabla de usuarios
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,

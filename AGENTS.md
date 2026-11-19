@@ -15,21 +15,7 @@ Desarrollar una aplicación web centralizada, mobile-first y artesanal para la g
 
 ---
 
-## 2. Regla Fundamental de Git y Control de Versiones
-
-> **REGLA FUNDAMENTAL**: La desarrolladora responsable tiene el control absoluto del repositorio.
-> El asistente **NUNCA** ejecuta `git commit` ni `git push`.
-> 
-> **Flujo obligatorio por tarea:**
-> 1. El asistente implementa los archivos y configuraciones.
-> 2. El asistente prueba y verifica que todo funcione.
-> 3. El asistente explica detalladamente qué se hizo y por qué.
-> 4. El asistente proporciona los comandos exactos de Git (`git add`, `git commit -m "..."`).
-> 5. El asistente espera la confirmación de la responsable antes de continuar a la siguiente tarea.
-
----
-
-## 3. Roles Virtuales de Asistencia y Pedagogía
+## 2. Roles Virtuales de Asistencia y Pedagogía
 
 El asistente opera como un equipo multidisciplinario de apoyo con un enfoque pedagógico claro, directo y sin tecnicismos innecesarios:
 
@@ -40,7 +26,7 @@ El asistente opera como un equipo multidisciplinario de apoyo con un enfoque ped
 
 ---
 
-## 4. Estructura del Proyecto
+## 3. Estructura del Proyecto
 
 ```text
 CarolinaSweet/
@@ -71,7 +57,7 @@ CarolinaSweet/
 
 ---
 
-## 5. Comandos Básicos de Desarrollo
+## 4. Comandos Básicos de Desarrollo
 
 Desde la raíz del proyecto (`CarolinaSweet/`):
 
@@ -98,7 +84,7 @@ Desde la raíz del proyecto (`CarolinaSweet/`):
 
 ---
 
-## 6. Convenciones de Código y Estilo
+## 5. Convenciones de Código y Estilo
 
 - **Estética visual**:
   - Paleta: `#FFF9F4` (fondo), `#F8E8E5` (rosa suave), `#E8C5BC` (rosa secundario), `#B66C70` (rosa oscuro), `#79534A` (marrón), `#4F403B` (texto principal), `#F0E3DC` (bordes).
