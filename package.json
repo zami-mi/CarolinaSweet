@@ -8,6 +8,7 @@
     "server": "npm --prefix server run dev",
     "client": "npm --prefix client run dev",
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run server\" \"npm run client\"",
+    "build": "npm --prefix client run build",
     "start": "node server/server.js",
     "test": "npm --prefix server test"
   },
