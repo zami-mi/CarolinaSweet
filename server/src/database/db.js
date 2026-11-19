@@ -23,12 +23,18 @@ function initSchema() {
   const schemaPath = path.resolve(__dirname, 'schema.sql');
   const schemaSql = fs.readFileSync(schemaPath, 'utf-8');
   db.exec(schemaSql);
-}
 
-// Inicializar esquema automáticamente al importar la base de datos
-initSchema();
+  const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
+  if (userCount === 0) {
+    const { runSeed } = require('./seed');
+    runSeed();
+  }
+}
 
 module.exports = {
   db,
   initSchema
 };
+
+// Inicializar esquema y semillas automáticamente al importar la base de datos
+initSchema();
