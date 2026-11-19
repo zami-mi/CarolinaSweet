@@ -13,8 +13,26 @@ const { authenticate } = require('./middlewares/auth.middleware');
 
 const app = express();
 
+// Configuración estricta de CORS (Punto 13)
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
+  : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: El origen '${origin}' no está autorizado.`));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
 // Middlewares globales
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(authenticate);
 
