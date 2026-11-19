@@ -7,12 +7,14 @@ const clientsRoutes = require('./routes/clients.routes');
 const ordersRoutes = require('./routes/orders.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const reportsRoutes   = require('./routes/reports.routes');
+const { authenticate } = require('./middlewares/auth.middleware');
 
 const app = express();
 
 // Middlewares globales
 app.use(cors());
 app.use(express.json());
+app.use(authenticate);
 
 // Endpoint de verificación de salud (Health check)
 app.get('/api/health', (req, res) => {
@@ -21,6 +23,14 @@ app.get('/api/health', (req, res) => {
     app: 'Carolina Sweet API',
     uptime: process.uptime(),
     timestamp: new Date().toISOString()
+  });
+});
+
+// Endpoint de perfil y estado de autenticación (Arquitectura futura)
+app.get('/api/auth/me', (req, res) => {
+  res.json({
+    user: req.user,
+    auth_enabled: process.env.AUTH_REQUIRED === 'true'
   });
 });
 
