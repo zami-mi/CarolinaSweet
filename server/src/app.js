@@ -13,17 +13,24 @@ const { authenticate } = require('./middlewares/auth.middleware');
 
 const app = express();
 
-// Configuración estricta de CORS (Punto 13)
+// Configuración de CORS con orígenes autorizados
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
   : ['http://localhost:5173', 'http://127.0.0.1:5173'];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+    if (
+      !origin || 
+      allowedOrigins.includes(origin) || 
+      allowedOrigins.includes('*') ||
+      origin.includes('carolinasweet.onrender.com') ||
+      origin.endsWith('.onrender.com') ||
+      origin.endsWith('.netlify.app')
+    ) {
       callback(null, true);
     } else {
-      callback(new Error(`CORS: El origen '${origin}' no está autorizado.`));
+      callback(null, false);
     }
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
